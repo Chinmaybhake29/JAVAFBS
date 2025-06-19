@@ -1,0 +1,149 @@
+package Collection;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
+
+class Employee implements Comparable<Employee>
+{
+	int id;
+	String name;
+	double salary;
+	
+	public Employee() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Employee(int id, String name, double salary) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.salary = salary;
+	}
+
+	int getId() {
+		return id;
+	}
+
+	void setId(int id) {
+		this.id = id;
+	}
+
+	String getName() {
+		return name;
+	}
+
+	void setName(String name) {
+		this.name = name;
+	}
+
+	double getSalary() {
+		return salary;
+	}
+
+	void setSalary(double salary) {
+		this.salary = salary;
+	}
+
+	@Override
+	public int compareTo(Employee o) {
+		return this.id-o.id;
+	}
+
+	@Override
+	public String toString() {
+		return "\n id=" + id + ", \n name=" + name + ", \n salary=" + salary;
+	}
+}
+class EmployeeCompare implements Comparator<Employee>
+{
+	@Override
+	public int compare(Employee o1, Employee o2) {
+		return o1.getName().compareTo(o2.getName());
+	}
+	
+}
+class EmployeeCompare2 implements Comparator<Employee>
+{
+
+	@Override
+	public int compare(Employee o1, Employee o2) {
+		
+		return Double.compare(o1.getSalary(), o2.getSalary());
+	
+	}
+	
+}
+public class EmployeeCollection {
+	public static void main(String[] args) {
+		Scanner sc=new Scanner(System.in);
+		List<Employee>employees=new ArrayList<Employee>();
+		System.out.println("How many data do you wants to be add");
+		int n=sc.nextInt();
+		for(int i=0;i<n;i++) 
+		{
+			System.out.println("Enter Employee Id, Name, Salary");
+			int id=sc.nextInt();
+			String name=sc.next();
+			double salary=sc.nextDouble();
+			employees.add(new Employee(id, name, salary));
+		}
+		
+		int choice=0;
+		boolean found=false;
+		do {
+			System.out.println("\n1. Search By Id.\n2. Search By Name.\n3. Sort By Name.\n4. Sort By Id.\n5. Sort By Salary");
+			System.out.println("\n Enter Your Choice");
+			choice=sc.nextInt();
+			switch (choice) {
+			case 1:
+				System.out.println("Enter the Employee Id");
+				int id=sc.nextInt();
+				for (Employee employee : employees) {
+					if(employee.id==id) {
+						found=true;
+						System.out.println(employee + " Found ");
+					}
+				}
+				if(!found) {
+					System.out.println("Not Founded");
+				}
+				break;
+			case 2:
+				System.out.println("Enter the Employee Name");
+				String name=sc.next();
+				for (Employee employee : employees) {
+					if(employee.name.equalsIgnoreCase(name)) {
+						found=true;
+						System.out.println(name + " Found ");
+					}
+				}
+				if(!found) {
+					System.out.println("Not Founded");
+				}
+			case 3:
+				System.out.println("Sorted By Name");
+				EmployeeCompare employeeCompare=new EmployeeCompare();
+				Collections.sort(employees,employeeCompare);
+				System.out.println(employees);
+				break;
+			case 4:
+				System.out.println("Sorted By id");
+				Collections.sort(employees);
+				System.out.println(employees);
+				break;
+			case 5:
+				System.out.println("Sorted By Salary");
+				EmployeeCompare2 employeeCompare2=new EmployeeCompare2();
+				Collections.sort(employees,employeeCompare2);
+				System.out.println(employees);
+				break;
+			default:
+				break;
+			}
+			
+		} while (choice!=5);
+	}
+}	
